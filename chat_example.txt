@@ -1,0 +1,96 @@
+AV
+What's your special skill?
+I can provide information and answer questions on a wide range of topics, including but not limited to:
+
+General knowledge
+Stock market data (current stock prices, fundamentals, analyst recommendations)
+Company news and press releases
+I can also assist with tasks such as:
+
+Answering questions in a natural language format
+Providing data in a structured format (e.g. tables)
+My capabilities are defined by the following functions:
+
+get_current_stock_price(symbol): Get the current stock price for a given symbol
+get_stock_fundamentals(symbol): Get fundamental data for a given stock symbol
+get_analyst_recommendations(symbol): Get analyst recommendations for a given stock symbol
+get_company_news(symbol, num_stories): Get company news and press releases for a given stock symbol
+Let me know if you have any specific questions or tasks you'd like me to help with!
+
+
+
+AV
+Summarize analyst recommendations and share the latest news for Tesla
+get_analyst_recommendations
+
+
+get_company_news
+
+
+Analyst Recommendations for Tesla
+To provide analyst recommendations and the latest news for Tesla, I will first retrieve the analyst recommendations for Tesla using its stock symbol, TSLA.
+
+Running:
+
+get_analyst_recommendations(symbol=TSLA)
+Analyst Recommendations for TSLA
+Period	Strong Buy	Buy	Hold	Sell	Strong Sell
+0m	5	15	17	7	3
+-1m	5	15	17	7	3
+-2m	5	15	17	7	3
+-3m	5	15	17	6	2
+Latest News for Tesla
+Running:
+
+get_company_news(num_stories=5, symbol=TSLA)
+Analyst Recommendations
+The analyst recommendations for Tesla (TSLA) are as follows:
+
+Period	Strong Buy	Buy	Hold	Sell	Strong Sell
+0m	5	15	17	7	3
+-1m	5	15	17	7	3
+-2m	5	15	17	7	3
+-3m	5	15	17	6	2
+Latest News
+Here are the latest news stories for Tesla:
+
+Stock market today: Dow, S&P 500, Nasdaq futures sink, bitcoin plummets in downbeat start to December: Wall Street's strong late-November rebound looks set to hit a speed bump on the first trading day of December.
+Wall Street Awaits Economic Data to Start December as US Equity Futures Slip Pre-Bell: US equity futures were down ahead of Monday's opening bell as Wall Street began the final month of the year.
+These are the top 10 most popular stocks on Robinhood UK in November: Crypto mining and artificial intelligence stocks dominated Robinhood UK’s most popular stocks list in November 2025, despite setbacks in both sectors during the month.
+Exchange-Traded Funds, Equity Futures Lower Pre-Bell Monday Ahead of Manufacturing Reports: The broad market exchange-traded fund SPDR S&P 500 ETF Trust (SPY) was down 0.7% and the actively traded Invesco QQQ ETF (QQQ) was down 0.6%.
+Stock Market Today: Dow Falls 200 Points; Nvidia, Tesla Slide (Live Coverage): The Dow Jones index dropped 200 points Monday. Nvidia stock and Tesla sold off in morning trading.
+
+
+AV
+compase Tesla and NVDA and provide analyast recommendations
+get_analyst_recommendations
+
+
+get_analyst_recommendations
+
+
+To compare Tesla (TSLA) and NVIDIA (NVDA) and provide analyst recommendations, I will first gather the necessary data.
+
+Step 1: Get Analyst Recommendations for Tesla (TSLA)
+Step 2: Get Analyst Recommendations for NVIDIA (NVDA)
+Step 3: Compare and Provide Recommendations
+I will now proceed to get the analyst recommendations for both stocks.
+
+Running:
+
+get_analyst_recommendations(symbol=TSLA)
+get_analyst_recommendations(symbol=NVDA)
+Analyst Recommendations Comparison: Tesla (TSLA) vs. NVIDIA (NVDA)
+Stock	Strong Buy	Buy	Hold	Sell	Strong Sell
+TSLA	5	15	17	7	3
+NVDA	11	49	3	1	0
+Based on the analyst recommendations, NVIDIA (NVDA) seems to have a more positive outlook with a higher number of strong buy and buy recommendations, and no strong sell recommendations. On the other hand, Tesla (TSLA) has a more mixed outlook with a significant number of hold, sell, and strong sell recommendations.
+
+Here's a brief summary:
+
+Tesla (TSLA): 5 strong buy, 15 buy, 17 hold, 7 sell, and 3 strong sell recommendations.
+NVIDIA (NVDA): 11 strong buy, 49 buy, 3 hold, 1 sell, and 0 strong sell recommendations.
+Keep in mind that analyst recommendations can change over time and may not reflect the current market situation. It's essential to do your own research and consider multiple sources before making any investment decisions.
+
+
+

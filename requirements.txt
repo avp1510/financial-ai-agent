@@ -1,0 +1,9 @@
+openai
+phidata 
+python-dotenv 
+yfinance
+packaging 
+ddgs 
+fastapi
+uvicorn 
+groq
