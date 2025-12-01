@@ -1,52 +1,32 @@
 import os
 from dotenv import load_dotenv
-import phi.api 
+import phi.api
 load_dotenv()
-from phi.agent import Agent
-from phi.model.groq import Groq
-from phi.tools.yfinance import YFinanceTools
-from phi.tools.duckduckgo import DuckDuckGo
+
+# Import the OOP Financial Agent System
+from financial_agent_oop import FinancialAgentSystem
 from phi.playground import Playground, serve_playground_app
 
 
 phi.api = os.getenv("PHI_API_KEY")
 
-# ---- WEB SEARCH AGENT ----
-websearch_agent = Agent(
-    name="Web search Agent",
-    role="Search web for the information",
-    model=Groq(id="meta-llama/llama-4-scout-17b-16e-instruct"),
-    tools=[DuckDuckGo()],
-    instructions=["Always include sources"],
-    show_tool_calls=True,
-    use_tools=True,
-    markdown=True
-)
+# ---- CREATE FINANCIAL AGENT SYSTEM USING FACTORY PATTERN ----
+# Instead of creating agents directly, we use the Factory Pattern
+financial_system = FinancialAgentSystem()
 
-# ---- FINANCIAL DATA AGENT ----
-finance_agent = Agent(
-    name="Finance AI Agent",
-    # role="Fetch financial data and answer questions based on it.",
-    model=Groq(id="meta-llama/llama-4-scout-17b-16e-instruct"),
-    tools=[
-        YFinanceTools(
-            stock_price=True,
-            analyst_recommendations=True,
-            stock_fundamentals=True,
-            company_news=True
-        )
-    ],
-    use_tools=True,
-    instructions=[
-        "Use tables to display analyst recommendations",
-        "Only return analyst recommendations when asked",
-        "Do not include analyst recommendations when asked for company news"
-    ],
-    show_tool_calls=True,
-    markdown=True
-)
- 
+# Get agents from the system using the factory pattern
+finance_agent = financial_system.get_agent('finance')
+websearch_agent = financial_system.get_agent('web')
+
+# Display available agents for debugging
+print("🤖 Agents created using Factory Pattern:")
+print(f"  • Finance Agent: {finance_agent}")
+print(f"  • Web Search Agent: {websearch_agent}")
+print(f"  • Available agents: {financial_system.get_available_agents()}")
+
+# Create playground with agents from the factory system
 app = Playground(agents=[finance_agent, websearch_agent]).get_app()
 
 if __name__ == "__main__":
+    print("🚀 Starting Financial Agent Playground with OOP Factory Pattern...")
     serve_playground_app("playground:app", reload=True)
