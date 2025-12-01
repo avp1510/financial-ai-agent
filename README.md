@@ -1,6 +1,6 @@
 # Financial AI Agent
 
-A powerful multi-agent AI system that combines financial data analysis with web search capabilities to provide comprehensive market intelligence and investment insights.
+A powerful multi-agent AI system that combines financial data analysis with web search capabilities to provide comprehensive market intelligence and investment insights. **Features both procedural and OOP implementations** using the Abstract Factory Pattern for enterprise-grade architecture.
 
 ## 🚀 Features
 
@@ -8,8 +8,10 @@ A powerful multi-agent AI system that combines financial data analysis with web 
 - **Company News**: Access latest news and press releases for companies
 - **Web Search Integration**: Combine financial data with broader web search results
 - **Multi-Agent Architecture**: Specialized agents for different types of financial queries
-- **Interactive Playground**: Web-based interface for easy interaction
+- **Abstract Factory Pattern**: Enterprise-grade OOP design with extensible agent creation
+- **Interactive Playground**: Web-based interface using Factory Pattern
 - **Streaming Responses**: Real-time response streaming for better user experience
+- **Dual Implementation**: Both procedural and OOP approaches for learning
 
 ## 📊 Capabilities
 
@@ -29,20 +31,43 @@ A powerful multi-agent AI system that combines financial data analysis with web 
 - Provides consolidated summaries from multiple data sources
 - Always includes sources for transparency
 
+## 🏗️ Architecture & Design Patterns
+
+This project demonstrates **professional software engineering** with multiple implementation approaches:
+
+### OOP Implementation (Abstract Factory Pattern)
+- **AgentFactory**: Abstract base class for agent creation
+- **WebSearchAgentFactory**: Concrete factory for web search agents
+- **FinanceAgentFactory**: Concrete factory for financial data agents
+- **MultiAgentFactory**: Composite factory for multi-agent systems
+- **FinancialAgentSystem**: Main orchestrator using dependency injection
+
+### Benefits of Factory Pattern
+- **Extensibility**: Easy to add new agent types
+- **Maintainability**: Centralized agent configuration
+- **Testability**: Mock agents for unit testing
+- **SOLID Principles**: Single responsibility, Open/closed, etc.
+
 ## 🛠️ Installation
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
-cd financial_agent
+git clone https://github.com/avp1510/financial-ai-agent.git
+cd financial-ai-agent
 ```
 
-2. Install dependencies:
+2. Create and activate virtual environment:
+```bash
+python3 -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+3. Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Set up environment variables:
+4. Set up environment variables:
 Create a `.env` file in the root directory with:
 ```env
 PHI_API_KEY=your_phi_api_key
@@ -53,19 +78,31 @@ GROQ_API_KEY=your_groq_api_key
 
 ### Command Line Interface
 
-Run the main financial agent:
+**Procedural Approach:**
 ```bash
 python financial_agent.py
 ```
 
-### Interactive Playground
+**OOP Approach:**
+```bash
+python financial_agent_oop.py
+```
+
+### Interactive Playground (OOP with Factory Pattern)
 
 Launch the web interface:
 ```bash
 python playground.py
 ```
 
-This will start a local web server where you can interact with the agents through a user-friendly interface.
+This starts a local web server using the Factory Pattern for agent creation.
+
+### Educational Demo
+
+Learn about the Factory Pattern:
+```bash
+python demo_oop.py
+```
 
 ## 💡 Example Queries
 
@@ -78,17 +115,44 @@ This will start a local web server where you can interact with the agents throug
 
 ```
 financial_agent/
-├── financial_agent.py      # Main multi-agent implementation
-├── playground.py           # Web playground interface
-├── requirements.txt        # Python dependencies
-├── chat_example.txt        # Example conversation logs
-├── README.md              # This file
-└── venv/                  # Virtual environment
+├── 📄 README.md                    # Project documentation
+├── 📋 requirements.txt             # Python dependencies
+├── 🔐 .env                        # Environment variables (create this)
+├── 🚫 .gitignore                  # Git exclusion rules
+│
+├── 🔧 Core Implementation
+│   ├── financial_agent.py         # Original procedural implementation
+│   └── financial_agent_oop.py     # OOP refactoring with Factory Pattern
+│
+├── 🌐 Web Interface
+│   └── playground.py              # Web playground using Factory Pattern
+│
+├── 📚 Educational Content
+│   ├── demo_oop.py                # Factory Pattern demonstration
+│   └── chat_example.txt           # Example conversations
+│
+└── 🏠 Environment
+    ├── venv/                      # Virtual environment
+    └── myenv/                     # Alternative virtual environment
 ```
 
 ## 🏗️ Architecture
 
-### Agents
+### Implementation Approaches
+
+#### 1. Procedural Implementation (`financial_agent.py`)
+- Direct agent instantiation
+- Global variable usage
+- Simple but less maintainable
+- Good for quick prototyping
+
+#### 2. OOP Implementation (`financial_agent_oop.py`)
+- Abstract Factory Pattern
+- Clean separation of concerns
+- Extensible and maintainable
+- Enterprise-grade architecture
+
+### Agent Types
 
 1. **Finance Agent**: Specialized in financial data retrieval using YFinance tools
    - Stock prices and fundamentals
@@ -112,7 +176,16 @@ financial_agent/
 - **YFinance**: Financial data retrieval
 - **DuckDuckGo**: Web search capabilities
 - **FastAPI**: Web playground backend
-- **Streamlit/Uvicorn**: Web server for playground
+- **Uvicorn**: ASGI web server
+- **Python ABC**: Abstract base classes for OOP
+
+### Design Patterns Demonstrated
+
+- **Abstract Factory Pattern**: For extensible agent creation
+- **Strategy Pattern**: Different agents as different strategies
+- **Facade Pattern**: Multi-agent supervisor as unified interface
+- **Composite Pattern**: Multi-agent system composition
+- **Template Method**: Consistent agent configuration structure
 
 ## 🔧 Configuration
 
@@ -121,6 +194,7 @@ The agents are configured with the following models and tools:
 - **Model**: `meta-llama/llama-4-scout-17b-16e-instruct`
 - **Financial Tools**: YFinance (price, fundamentals, recommendations, news)
 - **Search Tools**: DuckDuckGo web search
+- **Factory Pattern**: Extensible agent creation system
 
 ## 📝 Dependencies
 
@@ -133,17 +207,60 @@ Key dependencies include:
 - `uvicorn`: ASGI server
 - `python-dotenv`: Environment variable management
 
+## 🎯 Running Different Versions
+
+### Quick Start (Recommended)
+```bash
+# Clone and setup
+git clone https://github.com/avp1510/financial-ai-agent.git
+cd financial-ai-agent
+python3 -m venv venv && source venv/bin/activate
+pip install -r requirements.txt
+
+# Create .env file with your API keys
+echo "PHI_API_KEY=your_key_here" > .env
+echo "GROQ_API_KEY=your_key_here" >> .env
+
+# Run the web playground (Factory Pattern)
+python playground.py
+```
+
+### Compare Implementations
+```bash
+# Procedural approach (simple)
+python financial_agent.py
+
+# OOP approach (advanced architecture)
+python financial_agent_oop.py
+
+# Learn design patterns (no API keys needed)
+python demo_oop.py
+```
+
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
+4. Test both procedural and OOP implementations
+5. Commit your changes (`git commit -m 'Add amazing feature'`)
+6. Push to the branch (`git push origin feature/amazing-feature`)
+7. Open a Pull Request
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🎓 Learning Outcomes
+
+This project demonstrates:
+- **Multi-agent AI systems** with specialized agents
+- **Abstract Factory Pattern** for extensible design
+- **OOP principles** (encapsulation, inheritance, polymorphism)
+- **Clean architecture** and SOLID principles
+- **Web development** with FastAPI
+- **Financial data APIs** integration
+- **Professional code organization**
 
 ## ⚠️ Disclaimer
 
@@ -159,3 +276,13 @@ The agent provides structured responses including:
 - Combined analysis from multiple data sources
 
 See `chat_example.txt` for detailed example interactions.
+
+## 🏆 Key Achievements
+
+- ✅ **Dual Implementation**: Both procedural and OOP approaches
+- ✅ **Design Patterns**: Abstract Factory, Strategy, Facade patterns
+- ✅ **Enterprise Architecture**: Extensible and maintainable code
+- ✅ **Web Deployment**: Interactive playground interface
+- ✅ **Professional Documentation**: Comprehensive README and examples
+- ✅ **Version Control**: Git with proper .gitignore
+- ✅ **Environment Management**: Virtual environments and dependency management
