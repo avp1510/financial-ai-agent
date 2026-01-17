@@ -1,0 +1,76 @@
+@startuml Package Structure
+
+title Python Package Organization
+
+package financial_ai_agent {
+    package domain {
+        [entities.py] as Entities
+        [services.py] as DomainServices
+        [repositories.py] as Repositories
+        [__init__.py]
+    }
+
+    package application {
+        [services.py] as AppServices
+        [__init__.py]
+    }
+
+    package infrastructure {
+        [yfinance_adapter.py] as YFinanceAdapter
+        [__init__.py]
+    }
+
+    package tests {
+        [test_domain_entities.py]
+        [test_domain_services.py]
+        [test_application_services.py]
+        [test_integration.py]
+        [__init__.py]
+    }
+
+    package diagrams {
+        [sequence_diagrams.puml]
+        [component_diagrams.puml]
+        [deployment_diagram.puml]
+        [package_diagram.puml]
+    }
+
+    [bootstrap.py] as Bootstrap
+    [pytest.ini] as PytestConfig
+    [setup.cfg] as SetupConfig
+    [requirements.txt] as Requirements
+    [README.md] as Readme
+}
+
+' Dependencies
+Bootstrap --> domain
+Bootstrap --> application
+Bootstrap --> infrastructure
+
+application --> domain
+infrastructure --> domain
+
+tests --> domain
+tests --> application
+
+' Notes
+note right of domain
+Core business logic
+Value objects, entities
+Domain services
+Repository interfaces
+end note
+
+note right of application
+Use case orchestration
+Application services
+Dependency injection
+end note
+
+note right of infrastructure
+External integrations
+Repository implementations
+Adapters and gateways
+end note
+
+@enduml

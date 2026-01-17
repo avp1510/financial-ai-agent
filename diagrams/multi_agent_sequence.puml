@@ -1,0 +1,43 @@
+@startuml Multi-Agent System Sequence Diagram
+
+title Multi-Agent Financial Analysis Flow
+
+actor User
+participant "FinancialAgent\nSystem" as System
+participant "QueryProcessing\nService" as QuerySvc
+participant "WebSearch\nAgent" as WebAgent
+participant "Finance\nAgent" as FinanceAgent
+participant "MultiAgent\nSupervisor" as Supervisor
+participant "YFinance\nAPI" as YFinance
+participant "DuckDuckGo\nAPI" as DDG
+
+== Query Processing ==
+User -> System: Query about financial data
+System -> QuerySvc: process_query("AAPL analysis")
+
+== Agent Orchestration ==
+QuerySvc -> Supervisor: Execute multi-agent analysis
+
+== Parallel Agent Execution ==
+Supervisor -> WebAgent: Search for AAPL news & context
+Supervisor -> FinanceAgent: Get AAPL fundamentals & recommendations
+
+WebAgent -> DDG: Web search request
+DDG --> WebAgent: Search results
+
+FinanceAgent -> YFinance: Stock data request
+YFinance --> FinanceAgent: Price, fundamentals, news
+
+== Agent Responses ==
+WebAgent --> Supervisor: Web search summary
+FinanceAgent --> Supervisor: Financial data analysis
+
+== Response Synthesis ==
+Supervisor -> Supervisor: Combine and synthesize\nweb + financial data
+Supervisor --> QuerySvc: Consolidated analysis
+
+== Final Response ==
+QuerySvc --> System: Formatted response
+System --> User: Comprehensive financial analysis
+
+@enduml

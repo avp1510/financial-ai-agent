@@ -1,0 +1,47 @@
+@startuml Financial AI Agent - Query Processing Sequence
+
+title Financial AI Agent - Query Processing Flow
+
+actor User
+participant "Web Interface/\nCLI" as Interface
+participant "QueryProcessing\nApplicationService" as AppService
+participant "QueryProcessing\nDomainService" as DomainService
+participant "QueryAnalysis\nService" as QueryAnalyzer
+participant "StockDataService\n(Repository)" as StockRepo
+participant "Recommendation\nRepository" as RecRepo
+participant "News\nRepository" as NewsRepo
+participant "QueryResult\nRepository" as ResultRepo
+
+== Query Submission ==
+User -> Interface: Submit query\n"What is AAPL price?"
+Interface -> AppService: process_query(query_text)
+
+== Query Analysis ==
+AppService -> DomainService: process_query(query_text)
+DomainService -> QueryAnalyzer: analyze_query(query_text)
+QueryAnalyzer --> DomainService: Query entity with symbols & type
+
+== Data Retrieval ==
+alt Query contains symbols
+    DomainService -> StockRepo: get_stock_info(symbol)
+    StockRepo --> DomainService: Stock entity
+
+    DomainService -> RecRepo: get_analyst_recommendations(symbol)
+    RecRepo --> DomainService: Recommendation list
+
+    DomainService -> NewsRepo: get_company_news(symbol)
+    NewsRepo --> DomainService: News list
+end
+
+== Response Generation ==
+DomainService --> DomainService: Generate formatted response
+
+== Result Storage ==
+AppService -> ResultRepo: save(result)
+ResultRepo --> AppService: Confirmation
+
+== Response Delivery ==
+AppService --> Interface: QueryResult with response
+Interface --> User: Formatted financial data
+
+@enduml

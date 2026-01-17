@@ -1,9 +1,12 @@
 openai
-phidata 
-python-dotenv 
+phidata
+python-dotenv
 yfinance
-packaging 
-ddgs 
+packaging
+ddgs
 fastapi
-uvicorn 
+uvicorn
 groq
+pytest>=7.0.0
+pytest-cov>=4.0.0
+pytest-mock>=3.10.0

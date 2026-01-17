@@ -1,0 +1,62 @@
+@startuml Fault Tolerance - Error Handling Sequence
+
+title Fault Tolerance and Error Handling Flow
+
+actor User
+participant "Application\nService" as AppSvc
+participant "Domain\nService" as DomainSvc
+participant "CircuitBreaker" as Circuit
+participant "Retry\nMechanism" as Retry
+participant "Fallback\nHandler" as Fallback
+participant "External\nAPI" as API
+participant "Cache" as Cache
+participant "Logger" as Logger
+
+== Normal Operation ==
+User -> AppSvc: Submit query
+AppSvc -> DomainSvc: process_query()
+
+== Circuit Breaker Check ==
+DomainSvc -> Circuit: Check if API is available
+alt Circuit Open (API down)
+    Circuit --> DomainSvc: Circuit open - skip API call
+    DomainSvc -> Fallback: Get cached/fallback data
+    Fallback --> DomainSvc: Fallback response
+else Circuit Closed (API available)
+    DomainSvc -> Retry: Execute with retry logic
+
+    == Retry Logic ==
+    loop up to max_retries
+        Retry -> API: Make API call
+        alt API Success
+            API --> Retry: Data response
+            Retry --> DomainSvc: Success
+            DomainSvc -> Circuit: Reset success count
+        else API Failure
+            API --> Retry: Exception
+            Retry -> Logger: Log failure
+            note right: Wait exponential backoff
+        end
+    end
+
+    alt All retries failed
+        Retry --> DomainSvc: Final failure
+        DomainSvc -> Circuit: Increment failure count
+        note right: If threshold reached,\ncircuit opens
+        DomainSvc -> Fallback: Get fallback data
+        Fallback --> DomainSvc: Fallback response
+    end
+end
+
+== Response with Error Handling ==
+DomainSvc --> AppSvc: QueryResult (success/failure)
+AppSvc -> Logger: Log result metrics
+
+alt Response successful
+    AppSvc -> Cache: Update cache with fresh data
+    Cache --> AppSvc: Cache updated
+end
+
+AppSvc --> User: Response with status
+
+@enduml

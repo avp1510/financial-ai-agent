@@ -1,0 +1,70 @@
+@startuml Fault Tolerance Architecture Overview
+
+title Fault Tolerance Architecture - Circuit Breakers, Retries, and Fallbacks
+
+package "Fault Tolerance Layer" as FT {
+    [Circuit Breaker] as CB
+    [Retry Mechanism] as Retry
+    [Fallback Handler] as Fallback
+    [Monitoring Service] as Monitor
+}
+
+package "Infrastructure Layer" as Infra {
+    [YFinance Adapter] as YFAdapter
+    [Web Search Adapter] as WebAdapter
+    [Cache Manager] as Cache
+}
+
+package "External APIs" as APIs {
+    [YFinance API] as YFAPI
+    [DuckDuckGo API] as DDGAPI
+    [Groq API] as GroqAPI
+}
+
+' Fault tolerance relationships
+YFAdapter --> CB : "Circuit Breaker\nProtection"
+YFAdapter --> Retry : "Retry Logic"
+YFAdapter --> Fallback : "Fallback Data"
+YFAdapter --> Cache : "Caching"
+
+WebAdapter --> CB
+WebAdapter --> Retry
+WebAdapter --> Fallback
+
+CB --> Monitor : "Health Metrics"
+Retry --> Monitor : "Retry Metrics"
+Fallback --> Monitor : "Fallback Usage"
+
+' API interactions
+YFAdapter --> YFAPI : "Protected Calls"
+WebAdapter --> DDGAPI : "Protected Calls"
+
+' State transitions shown in separate diagram
+' Circuit Breaker States: Closed -> Open -> Half_Open -> Closed
+' Request Flow: Circuit_Check -> API_Call/Retry/Fallback -> Success
+
+' Notes
+note right of CB
+Circuit Breaker prevents
+cascading failures by
+stopping calls to failing APIs
+end note
+
+note right of Retry
+Exponential backoff retry
+with jitter to handle
+transient failures
+end note
+
+note right of Fallback
+Graceful degradation using
+cached data or default responses
+end note
+
+note right of Monitor
+Tracks health metrics,
+alerts on failures,
+circuit breaker status
+end note
+
+@enduml

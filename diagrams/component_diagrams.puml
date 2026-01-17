@@ -1,0 +1,63 @@
+@startuml Financial AI Agent - Component Architecture
+
+title Domain Driven Design - Component Architecture
+
+package "User Interface Layer" as UI {
+    [Web Interface] as WebUI
+    [CLI Interface] as CLI
+    [API Gateway] as API
+}
+
+package "Application Layer" as App {
+    [QueryProcessingApplicationService] as QueryAppSvc
+    [FinancialAnalysisService] as FinAnalysisSvc
+    [AnalyticsService] as AnalyticsSvc
+}
+
+package "Domain Layer" as Domain {
+    [Entities] as Entities
+    note right of Entities : Stock, Price, Query, etc.
+
+    [Domain Services] as DomainSvc
+    note right of DomainSvc : QueryAnalysisService\nRecommendationAnalysisService\nNewsAnalysisService\nQueryProcessingService
+
+    [Repositories] as Repositories
+    note right of Repositories : StockRepository\nAnalystRepository\nNewsRepository\nQueryResultRepository
+}
+
+package "Infrastructure Layer" as Infra {
+    [YFinance Adapter] as YFinanceAdapter
+    [Web Search Adapter] as WebAdapter
+    [In-Memory Storage] as MemStorage
+    [Cache Manager] as Cache
+    [Circuit Breaker] as CircuitBreaker
+    [Retry Mechanism] as Retry
+    [Logging] as Logger
+}
+
+package "External Systems" as External {
+    [YFinance API] as YFAPI
+    [DuckDuckGo API] as DDGAPI
+    [Groq API] as GroqAPI
+}
+
+' Relationships
+UI --> App : Uses
+App --> Domain : Orchestrates
+Domain --> Infra : Depends on
+Infra --> External : Integrates with
+
+' Internal relationships
+QueryAppSvc --> DomainSvc : Delegates to
+FinAnalysisSvc --> Repositories : Queries data
+AnalyticsSvc --> Repositories : Aggregates data
+
+YFinanceAdapter --> YFAPI : Fetches data
+WebAdapter --> DDGAPI : Searches web
+Cache --> MemStorage : Stores data
+
+' Dependency injection
+App --> Infra : DI Container
+note right of App : Bootstrap configures\ndependencies
+
+@enduml

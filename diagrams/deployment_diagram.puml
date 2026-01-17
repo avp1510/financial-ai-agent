@@ -1,0 +1,66 @@
+@startuml Deployment Architecture
+
+title Financial AI Agent - Deployment Diagram
+
+node "User Device" as UserDevice {
+    [Web Browser] as Browser
+    [CLI Terminal] as Terminal
+}
+
+node "Application Server" as AppServer {
+    [FastAPI Web Server] as FastAPI
+    [Uvicorn ASGI] as Uvicorn
+
+    package "Application Layer" {
+        [Application Services] as AppServices
+        [Bootstrap Container] as Bootstrap
+    }
+
+    package "Domain Layer" {
+        [Domain Services] as DomainServices
+        [Domain Entities] as Entities
+    }
+
+    package "Infrastructure Layer" {
+        [YFinance Adapter] as YFinanceAdapter
+        [Web Search Adapter] as WebAdapter
+        [Circuit Breaker] as CircuitBreaker
+        [Cache Manager] as Cache
+        [Logging] as Logger
+    }
+}
+
+cloud "External APIs" as ExternalAPIs {
+    [YFinance API] as YFinanceAPI
+    [DuckDuckGo API] as DuckDuckGoAPI
+    [Groq API] as GroqAPI
+}
+
+database "Data Storage" as Storage {
+    [In-Memory Cache] as MemCache
+    [File System] as FileSys
+}
+
+' Network connections
+UserDevice --> AppServer : HTTP/HTTPS
+AppServer --> ExternalAPIs : HTTPS/API Calls
+AppServer --> Storage : Local access
+
+' Internal component relationships
+FastAPI --> AppServices : Routes requests
+AppServices --> DomainServices : Business logic
+DomainServices --> YFinanceAdapter : Data access
+DomainServices --> WebAdapter : Search access
+YFinanceAdapter --> CircuitBreaker : Fault tolerance
+WebAdapter --> CircuitBreaker : Fault tolerance
+Cache --> MemCache : Caching
+Logger --> FileSys : Log storage
+
+' Fault tolerance
+CircuitBreaker --> ExternalAPIs : Monitors health
+note right of CircuitBreaker
+Circuit breaker pattern
+for API resilience
+end note
+
+@enduml
